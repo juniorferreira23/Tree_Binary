@@ -30,10 +30,40 @@ raiz.esquerda.direita = new No(5)
 raiz.direita.esquerda = new No(6)
 raiz.direita.esquerda.esquerda = new No(7)
 // Por fim os últimos Nós e os mais profundos são chamados de folhas
-console.log(raiz)
-console.log(raiz.direita.esquerda.esquerda) // Nó mais profundo
+//console.log(raiz)
+//console.log(raiz.direita.esquerda.esquerda) // Nó mais profundo
 
-//      1
-//     2 3
-// 4 5     6
-//      7
+//Exemplificação de vamos das chaves sendo "v" o ponteiro para baixo informado que Nó a esquerda ou a direita
+//   v      1      v        1º Camada de profundidade
+// v 2 v         v 3        2º Camada de profundidade
+// 4   5       v 6          3º Camada de profundidade
+//           v 7            4º Camada de profundidade
+
+// Efetuando uma busca na árvore binária
+const calcularProfundidade = (no, contador) => {
+    let contadorEsquerda = contador
+    let contadorDireita = contador
+    // Verificando se o nó não está vázio/nulo
+    if (no === null) {
+        //console.log('Nó vázio');
+        return 0
+    } else {
+        // Recursivamente calcula a profundidade de cada subárvore
+        //console.log(no.esquerda)
+        
+        contadorEsquerda++
+        const profundidadeEsquerda = calcularProfundidade(no.esquerda, contadorEsquerda) //chamando a função novamente com o atributo a esquerda do no
+        console.log(profundidadeEsquerda)
+        
+        contadorDireita++
+        const profundidadeDireita = calcularProfundidade(no.direita, contadorDireita) //idm
+        console.log(profundidadeDireita)
+        
+        
+        // A profundidade da árvore é a maior profundidade entre as subárvores mais a raiz
+        //console.log('profundidade é: ', Math.max(profundidadeEsquerda, profundidadeDireita) + 1)
+        console.log(contadorDireita,contadorEsquerda)
+    }
+}
+
+calcularProfundidade(raiz, 1)
