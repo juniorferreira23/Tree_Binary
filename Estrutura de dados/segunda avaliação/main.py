@@ -1,46 +1,33 @@
-import arvoreBinaria
+import Arvore
 
-class Prova2AVEstruturaDeDados:
-    def __init__(self):
-        self.opc = 0
-        self.arvore = arvoreBinaria.ArvoreBinaria(7)
+opc = 0
+arvore = Arvore.ArvoreBinaria()
 
-    def menu(self):
-        print("")
-        print("## ÁRVORE BINÁRIA ##")
-        print("1 - Inserir")
-        print("2 - Remover")
-        print("3 - Listar")
-        print("4 - Sair")
-        print("")
-        self.opc = int(input("Informe a opção desejada: "))
-
-    def run(self):
-        while self.opc != 4:
-            self.menu()
-            if self.opc == 1:
-                self.inserir()
-            elif self.opc == 2:
-                self.remover()
-            elif self.opc == 3:
-                self.listar()
-            elif self.opc == 4:
-                print("Sair")
-            else:
-                print("Opção inválida!")
-
-    def inserir(self):
+while opc != 4:
+    print("")
+    print("## ÁRVORE BINÁRIA ##")
+    print("1 - Inserir")
+    print("2 - Remover")
+    print("3 - Listar")
+    print("4 - Sair")
+    print("")
+    opc = int(input("Informe a opção desejada: "))
+    if opc == 1:
         # Implemente a lógica de inserção aqui
-        pass
-
-    def remover(self):
+        print('')
+        dado = int(input("Digite o valor a inserir: "))
+        arvore.inserir(dado)
+        print('')
+    elif opc == 2:
         # Implemente a lógica de remoção aqui
-        pass
-
-    def listar(self):
-        self.arvore.percursosSimetro()
-        pass
-
-if __name__ == "__main__":
-    prova = Prova2AVEstruturaDeDados()
-    prova.run()
+        print('')
+        dado = int(input("Digite o valor a remover: "))
+        arvore.remover(dado)
+        print('')
+    elif opc == 3:
+        lista = arvore.listar()
+        print(lista)
+    elif opc == 4:
+        print("Sair")
+    else:
+        print("Opção inválida!")

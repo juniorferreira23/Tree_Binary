@@ -8,16 +8,13 @@
 # Então iniciaremos criando uma class Nó que terá a raiz e as arestas 
 
 class No:
-    def __init__(self, dado):
+    def __init__(self, chave):
         # Aqui podemos observar que ao ser instânciada a classe Nó iremos atribuir o valor do dado ao Nó
-        self.dado = dado
+        self.chave = chave
         # Podemos observa que os nós filhos serão a esquerda e a direita e iniciaram vázios
         self.esquerda = None
         self.direita = None
-    # Para mostrar o dado quando printar
-    def __str__(self):
-        return str(self.dado)
-    
+
 # Ao instânciar a classe Nó atribuimos o valor do dado que irá ser a primeira raiz da classe
 
 # const raiz = new No(1)
@@ -53,31 +50,64 @@ class No:
 # Evoluindo nosso código podemos separar a classe nó e a classe árvore binária que irá possuir o atributo raiz e instaciamos ela.
 
 class ArvoreBinaria:
-    def __init__(self, dado=None):
-        if dado:
-            no = No(dado)
-            self.raiz = no
-        else:
-            self.raiz = None
+    def __init__(self):
+        self.raiz = None
 
-    def percursosSimetro(self, no=None):
+    def inserir(self, chave):
+        self.raiz = self._inserir(self.raiz, chave)
+
+    def _inserir(self, no, chave):
         if no is None:
-            no = self.raiz
-        if no.esquerda:
-            self.percursosSimetro(no.esquerda)
-        print(no)
-        if no.direita:
-            self.percursosSimetro(no.direita)
+            return No(chave)
+        
+        if chave < no.chave:
+            no.esquerda = self._inserir(no.esquerda, chave)
+        elif chave > no.chave:
+            no.direita = self._inserir(no.direita, chave)
 
+        return no
 
+    def remover(self, chave):
+        self.raiz = self._remover(self.raiz, chave)
 
+    def _remover(self, no, chave):
+        if no is None:
+            return no
 
-arvore = ArvoreBinaria(7)
-arvore.raiz.esquerda = No(18)
-arvore.raiz.direita = No(14)
+        if chave < no.chave:
+            no.esquerda = self._remover(no.esquerda, chave)
+        elif chave > no.chave:
+            no.direita = self._remover(no.direita, chave)
+        else:
+            # No com um ou nenhum filho
+            if no.esquerda is None:
+                return no.direita
+            elif no.direita is None:
+                return no.esquerda
 
-#      7
-#     / \
-#   18  14
+            # No com dois filhos: encontrar o sucessor in-order
+            no.chave = self._minimo_valor(no.direita)
 
-arvore.percursosSimetro()
+            # Remover o sucessor in-order
+            no.direita = self._remover(no.direita, no.chave)
+
+        return no
+
+    def _minimo_valor(self, no):
+        while no.esquerda is not None:
+            no = no.esquerda
+        return no.chave
+
+    def listar(self):
+        return self._listar(self.raiz)
+
+    def _listar(self, no):
+        if no is not None:
+            return {
+                'raiz': no.chave,
+                'esquerda': self._listar(no.esquerda),
+                'direita': self._listar(no.direita)
+            }
+        else:
+            return {}
+
